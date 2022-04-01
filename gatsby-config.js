@@ -1,8 +1,10 @@
+require('dotenv').config({path: '.env'})
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `My Gatsby Blog`,
+    description: `testing blog`,
+    author: `Dimster1985`,
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
   },
   plugins: [
@@ -14,6 +16,17 @@ module.exports = {
         name: `images`,
         path: `${__dirname}/src/images`,
       },
+    },
+    {
+      resolve: 'gatsby-source-prismic',
+      options: {
+        repositoryName: 'getsby-dandellion-blog',
+        accessToken: `${process.env.API_KEY}`,
+        linkResolver: ({ node, key, value}) => post => `/${post.uid}`,
+        schemas: {
+          post: require('./custom_types/post.json')
+        }
+      }
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
